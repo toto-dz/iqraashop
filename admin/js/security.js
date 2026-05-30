@@ -228,7 +228,7 @@ class SecurityManager {
             };
 
             // إرسال للخادم
-            fetch('https://script.google.com/macros/s/AKfycby4fLeFl5CWXnqTmlugrcXIuAHzd2BOLs2naKARe5MpEvY0hkV3A8DTwErZFnxxhUwcYg/exec', {
+            fetch('https://script.google.com/macros/s/AKfycbwe6t9eGX6qxjP5KX77LF9-NrwrrjERlb5K_1lSXKl3_NMvNxh9hbgP3IxfW5vqlBh3Iw/exec', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: `action=logRequest&log=${encodeURIComponent(JSON.stringify(log))}`
