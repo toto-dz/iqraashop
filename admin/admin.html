@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم | إقرأ ماركت</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+<div class="app-container">
+    
+    <!-- ── Sidebar ── -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <a href="#" class="sidebar-logo">
+                <i class="fas fa-book-open"></i>
+                إقرأ ماركت
+            </a>
+        </div>
+        <nav class="sidebar-nav">
+            <a class="nav-item active" data-view="dashboardView">
+                <i class="fas fa-chart-pie"></i> لوحة القيادة
+            </a>
+            <a class="nav-item" data-view="productsView">
+                <i class="fas fa-box-open"></i> المنتجات
+            </a>
+            <a class="nav-item" data-view="ordersView">
+                <i class="fas fa-shopping-cart"></i> الطلبات
+            </a>
+            <a class="nav-item" data-view="servicesView">
+                <i class="fas fa-concierge-bell"></i> الخدمات
+            </a>
+            <a class="nav-item" data-view="categoriesView">
+                <i class="fas fa-tags"></i> التصنيفات
+            </a>
+            <a class="nav-item" data-view="customersView">
+                <i class="fas fa-users"></i> العملاء
+            </a>
+            <a class="nav-item" data-view="viewsView">
+                <i class="fas fa-eye"></i> المشاهدات
+            </a>
+            <a class="nav-item" data-view="settingsView">
+                <i class="fas fa-cog"></i> الإعدادات
+            </a>
+        </nav>
+        <div class="sidebar-footer">
+            <button class="btn-logout" onclick="window.location.href='../index.html'">
+                <i class="fas fa-sign-out-alt"></i> تصفح المتجر
+            </button>
+        </div>
+    </aside>
+
+    <!-- ── Main Content ── -->
+    <main class="main-content">
+        <!-- Top Navbar -->
+        <header class="top-navbar">
+            <div class="nav-left">
+                <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="globalSearchInput" placeholder="ابحث هنا...">
+                </div>
+            </div>
+            <div class="nav-right">
+                <button class="theme-toggle" id="orderAlertsBtn" title="الطلبات الجديدة">
+                    <i class="fas fa-bell"></i>
+                    <span id="newOrdersCounter" style="display:none;background:#e74c3c;color:#fff;border-radius:10px;padding:1px 6px;font-size:11px;font-weight:700;margin-right:5px;">0</span>
+                </button>
+                <button class="theme-toggle"><i class="fas fa-moon"></i></button>
+                <div class="admin-profile">
+                    <img src="https://ui-avatars.com/api/?name=Admin&background=0E7A5F&color=fff" alt="Admin">
+                    <div class="admin-info">
+                        <h4>المدير</h4>
+                        <span>Admin</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Page Container -->
+        <div class="page-container">
+            
+            <!-- ── View: Dashboard ── -->
+            <section id="dashboardView" class="view-section active">
+                <div class="page-header">
+                    <h1 class="page-title">نظرة عامة</h1>
+                    <button class="btn-primary" onclick="loadDashboardStats()"><i class="fas fa-sync-alt"></i> تحديث البيانات</button>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="card stat-card">
+                        <div class="stat-icon primary"><i class="fas fa-box"></i></div>
+                        <div class="stat-info">
+                            <h3 id="statTotalProducts">0</h3>
+                            <p>إجمالي المنتجات</p>
+                        </div>
+                    </div>
+                    <div class="card stat-card">
+                        <div class="stat-icon secondary"><i class="fas fa-shopping-cart"></i></div>
+                        <div class="stat-info">
+                            <h3 id="statTotalOrders">0</h3>
+                            <p>إجمالي الطلبات</p>
+                        </div>
+                    </div>
+                    <div class="card stat-card">
+                        <div class="stat-icon warning"><i class="fas fa-users"></i></div>
+                        <div class="stat-info">
+                            <h3 id="statTotalCustomers">0</h3>
+                            <p>إجمالي العملاء</p>
+                        </div>
+                    </div>
+                    <div class="card stat-card">
+                        <div class="stat-icon success"><i class="fas fa-wallet"></i></div>
+                        <div class="stat-info">
+                            <h3 id="statRevenue">0 دج</h3>
+                            <p>المبيعات</p>
+                        </div>
+                    </div>
+                    <div class="card stat-card">
+                        <div class="stat-icon info" style="color: #3498db; background: rgba(52,152,219,0.1);"><i class="fas fa-eye"></i></div>
+                        <div class="stat-info">
+                            <h3 id="statTotalViews">0</h3>
+                            <p>إجمالي المشاهدات</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 20px;">
+                    <h3 class="card-title">أحدث الطلبات</h3>
+                    <div class="table-responsive">
+                        <table id="recentOrdersTable">
+                            <thead>
+                                <tr>
+                                    <th>رقم الطلب</th>
+                                    <th>العميل</th>
+                                    <th>المجموع</th>
+                                    <th>الحالة</th>
+                                    <th>التاريخ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Dynamic Content -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── View: Products ── -->
+            <section id="productsView" class="view-section">
+                <div class="page-header">
+                    <h1 class="page-title">إدارة المنتجات</h1>
+                    <div style="display:flex;gap:10px;">
+                        <a href="https://cloudinary.com/console/media_library" target="_blank" class="btn-secondary" style="display:inline-flex;align-items:center;justify-content:center;padding:10px 20px;border-radius:var(--border-radius-sm);text-decoration:none;font-weight:600;"><i class="fas fa-external-link-alt" style="margin-left:8px;"></i> فتح Cloudinary</a>
+                        <button class="btn-primary" onclick="openProductModal()"><i class="fas fa-plus"></i> إضافة منتج جديد</button>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="table-responsive">
+                        <table id="productsTable">
+                            <thead>
+                                <tr>
+                                    <th>المنتج</th>
+                                    <th>القسم</th>
+                                    <th>السعر</th>
+                                    <th>المخزون</th>
+                                    <th>الحالة</th>
+                                    <th>إجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Dynamic Content -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── View: Orders ── -->
+            <section id="ordersView" class="view-section">
+                <div class="page-header">
+                    <h1 class="page-title">إدارة الطلبات</h1>
+                    <button class="btn-primary" onclick="renderOrdersTable(true)"><i class="fas fa-sync-alt"></i> تحديث</button>
+                </div>
+                <div class="card">
+                    <div class="table-responsive">
+                        <table id="ordersTable">
+                            <thead>
+                                <tr>
+                                    <th>رقم الطلب</th>
+                                    <th>العميل</th>
+                                    <th>الهاتف</th>
+                                    <th>المجموع</th>
+                                    <th>الحالة</th>
+                                    <th>التاريخ</th>
+                                    <th>إجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Dynamic Content -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── View: Services ── -->
+            <section id="servicesView" class="view-section">
+                <div class="page-header">
+                    <h1 class="page-title">إدارة الخدمات</h1>
+                    <button class="btn-primary" onclick="openServiceModal()"><i class="fas fa-plus"></i> إضافة خدمة</button>
+                </div>
+                <div class="card">
+                    <div class="table-responsive">
+                        <table id="servicesTable">
+                            <thead>
+                                <tr>
+                                    <th>الخدمة</th>
+                                    <th>الوصف</th>
+                                    <th>الترتيب</th>
+                                    <th>الحالة</th>
+                                    <th>إجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Dynamic Content -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── View: Categories ── -->
+            <section id="categoriesView" class="view-section">
+                <div class="page-header">
+                    <h1 class="page-title">إدارة التصنيفات</h1>
+                    <button class="btn-primary" onclick="openCategoryModal()"><i class="fas fa-plus"></i> إضافة تصنيف</button>
+                </div>
+                <div class="card">
+                    <div class="table-responsive">
+                        <table id="categoriesTable">
+                            <thead>
+                                <tr>
+                                    <th>مفتاح التصنيف (Key)</th>
+                                    <th>اسم التصنيف (Name)</th>
+                                    <th>إجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Dynamic Content -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── View: Customers ── -->
+            <section id="customersView" class="view-section">
+                <div class="page-header">
+                    <h1 class="page-title">العملاء</h1>
+                </div>
+                <div class="card">
+                    <p style="text-align:center; padding: 20px;">يتم استخراج العملاء تلقائياً من قائمة الطلبات.</p>
+                    <div class="table-responsive">
+                        <table id="customersTable">
+                            <thead>
+                                <tr>
+                                    <th>اسم العميل</th>
+                                    <th>رقم الهاتف</th>
+                                    <th>عدد الطلبات</th>
+                                    <th>إجمالي المدفوعات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Dynamic Content -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── View: Views ── -->
+            <section id="viewsView" class="view-section">
+                <div class="page-header">
+                    <h1 class="page-title">سجل المشاهدات</h1>
+                    <button class="btn-primary" onclick="renderViewsTable(true)"><i class="fas fa-sync-alt"></i> تحديث</button>
+                </div>
+                <div class="card">
+                    <div class="table-responsive">
+                        <table id="viewsTable">
+                            <thead>
+                                <tr>
+                                    <th>كود المنتج</th>
+                                    <th>اسم المنتج</th>
+                                    <th>المشاهدات</th>
+                                    <th>التقييم</th>
+                                    <th>عدد التقييمات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Dynamic Content -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── View: Settings ── -->
+            <section id="settingsView" class="view-section">
+                <div class="page-header">
+                    <h1 class="page-title">إعدادات النظام</h1>
+                </div>
+                <div class="card" style="max-width: 800px;">
+                    <form id="settingsForm">
+                        <h3 style="margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px;">إعدادات المتجر الأساسية</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>اسم المتجر</label>
+                                <input type="text" id="sName" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>العملة</label>
+                                <input type="text" id="sCurrency" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>رقم الهاتف</label>
+                                <input type="text" id="sPhone" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>رقم الواتساب</label>
+                                <input type="text" id="sWhatsapp" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>العنوان</label>
+                            <input type="text" id="sAddress" class="form-control">
+                        </div>
+
+
+                        <h3 style="margin-top: 30px; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px;">إعدادات قاعدة البيانات (Google Apps Script)</h3>
+                        <div class="form-group">
+                            <label>رابط API الخاص بـ Google Apps Script</label>
+                            <input type="url" id="sGasUrl" class="form-control" placeholder="https://script.google.com/macros/s/.../exec" required>
+                        </div>
+
+                        <button type="submit" class="btn-primary" style="margin-top: 20px;"><i class="fas fa-save"></i> حفظ جميع الإعدادات</button>
+                    </form>
+                </div>
+            </section>
+
+        </div>
+    </main>
+</div>
+
+<!-- ── Product Modal ── -->
+<div class="modal" id="productModal">
+    <div class="modal-content" style="max-width: 800px;">
+        <div class="modal-header">
+            <h3 id="productModalTitle">إضافة منتج جديد</h3>
+            <button class="modal-close"><i class="fas fa-times"></i></button>
+        </div>
+        <form id="productForm">
+            <input type="hidden" id="productId">
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label>اسم المنتج *</label>
+                    <input type="text" id="pName" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>التصنيف *</label>
+                    <select id="pCat" class="form-control" required>
+                        <!-- Dynamic Options -->
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>السعر (دج) *</label>
+                    <input type="number" id="pPrice" class="form-control" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label>الكمية (المخزون) *</label>
+                    <input type="number" id="pStock" class="form-control" min="0" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>الخصم (%)</label>
+                    <input type="number" id="pDiscount" class="form-control" min="0" max="100" value="0" step="0.1">
+                </div>
+                <div class="form-group">
+                    <label>العلامة (Tag)</label>
+                    <input type="text" id="pTag" class="form-control" placeholder="مثال: متوفر، هدية، جديد">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>الصورة الرئيسية *</label>
+                    <input type="url" id="pImg" class="form-control" placeholder="رابط الصورة الرئيسية" oninput="previewImage('pImg', 'previewMainImg')" required>
+                    <div class="uploaded-img-container" style="margin-top:10px;"><div id="previewMainImg"></div></div>
+                </div>
+                <div class="form-group">
+                    <label>صورة العرض الإضافية</label>
+                    <input type="url" id="pImgView" class="form-control" placeholder="رابط صورة العرض الإضافية" oninput="previewImage('pImgView', 'previewViewImg')">
+                    <div class="uploaded-img-container" style="margin-top:10px;"><div id="previewViewImg"></div></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>صور إضافية للمعرض</label>
+                <div id="additionalImagesContainer">
+                    <!-- Dynamic inputs will be added here -->
+                </div>
+                <button type="button" class="btn-secondary" style="margin-top:10px; width:auto; padding:5px 15px; font-size:14px;" onclick="addAdditionalImageInput()"><i class="fas fa-plus"></i> إضافة صورة أخرى</button>
+            </div>
+
+            <div class="form-group">
+                <label>وصف المنتج</label>
+                <textarea id="pDesc" class="form-control" rows="3"></textarea>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="pWorks" style="width:auto;margin-left:8px">
+                        عرض المنتج في قسم "من أعمالنا"
+                    </label>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-primary" style="width: 100%; justify-content: center; margin-top: 10px;">
+                <i class="fas fa-save"></i> حفظ المنتج
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- ── Service Modal ── -->
+<div class="modal" id="serviceModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="serviceModalTitle">إضافة خدمة جديدة</h3>
+            <button class="modal-close"><i class="fas fa-times"></i></button>
+        </div>
+        <form id="serviceForm">
+            <input type="hidden" id="serviceId">
+            <div class="form-group">
+                <label>عنوان الخدمة *</label>
+                <input type="text" id="srvTitle" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>صورة الخدمة</label>
+                <input type="url" id="srvImage" class="form-control" placeholder="رابط صورة الخدمة" oninput="previewImage('srvImage', 'previewServiceImg')">
+                <div class="uploaded-img-container" style="margin-top:10px;"><div id="previewServiceImg"></div></div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>أيقونة (FontAwesome class)</label>
+                    <input type="text" id="srvIcon" class="form-control" placeholder="fas fa-star">
+                </div>
+                <div class="form-group">
+                    <label>الترتيب</label>
+                    <input type="number" id="srvSort" class="form-control" value="0">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>الوصف</label>
+                <textarea id="srvDesc" class="form-control" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="srvActive" style="width:auto;margin-left:8px" checked>
+                    مفعل
+                </label>
+            </div>
+            <button type="submit" class="btn-primary" style="width: 100%; justify-content: center;"><i class="fas fa-save"></i> حفظ الخدمة</button>
+        </form>
+    </div>
+</div>
+
+<!-- ── Category Modal ── -->
+<div class="modal" id="categoryModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="categoryModalTitle">إضافة تصنيف جديد</h3>
+            <button class="modal-close"><i class="fas fa-times"></i></button>
+        </div>
+        <form id="categoryForm">
+            <input type="hidden" id="categoryId"> <!-- Original key for edit -->
+            <div class="form-group">
+                <label>مفتاح التصنيف (Key) *</label>
+                <input type="text" id="catKey" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>اسم التصنيف (Name) *</label>
+                <input type="text" id="catName" class="form-control" required>
+            </div>
+            <button type="submit" class="btn-primary" style="width: 100%; justify-content: center;"><i class="fas fa-save"></i> حفظ التصنيف</button>
+        </form>
+    </div>
+</div>
+
+<!-- Scripts -->
+ <script>
+    function initApp() {
+    // ▼ أضف هذا في البداية ▼
+    // التحقق من المصادقة
+    const session = auth.getSession();
+    if (!session) {
+        window.location.href = 'login.html';
+        return;
+    }
+
+    // تحديث معلومات المستخدم في الواجهة
+    const adminInfo = document.querySelector('.admin-info span');
+    if (adminInfo) {
+        adminInfo.textContent = session.username;
+    }
+
+    // إضافة زر تسجيل الخروج
+    const logoutBtn = document.querySelector('.btn-logout');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            auth.logout();
+            window.location.href = 'login.html';
+        });
+    }
+    // ▲ انتهى الكود المضاف ▲
+
+    // باقي الكود الموجود...
+    document.querySelector('.menu-toggle')?.addEventListener('click', toggleSidebar);
+    // ... إلخ
+}
+ </script>
+<script src="js/data.js"></script>
+<script src="js/admin.js"></script>
+<script src="js/config.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/security.js"></script>
+</body>
+</html>
