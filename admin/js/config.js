@@ -89,7 +89,7 @@ const SECURITY_CONFIG = {
     TIMEOUT: 30000,                         // 30 ثانية
     RETRY_ATTEMPTS: 3,                      // عدد محاولات إعادة المحاولة
     RETRY_DELAY: 1000,                      // 1 ثانية بين المحاولات
-    SCRIPT_URL: 'https://script.google.com/macros/s/AKfycby4fLeFl5CWXnqTmlugrcXIuAHzd2BOLs2naKARe5MpEvY0hkV3A8DTwErZFnxxhUwcYg/exec'
+    SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbwe6t9eGX6qxjP5KX77LF9-NrwrrjERlb5K_1lSXKl3_NMvNxh9hbgP3IxfW5vqlBh3Iw/exec'
   },
 
   // ═══ إعدادات الواجهة ═══
