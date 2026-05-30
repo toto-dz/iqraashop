@@ -1,7 +1,7 @@
 // js/app.js
 /* ── CONSTANTS & GLOBALS ── */
 const WA_NUMBER = "213655752724";
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby4fLeFl5CWXnqTmlugrcXIuAHzd2BOLs2naKARe5MpEvY0hkV3A8DTwErZFnxxhUwcYg/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwe6t9eGX6qxjP5KX77LF9-NrwrrjERlb5K_1lSXKl3_NMvNxh9hbgP3IxfW5vqlBh3Iw/exec";
 const GOOGLE_SHEETS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTAa67zBZTQExpINm7B5qe0YGU5NhAEG0TaNiLwK1MT9TrYeZR3ofzonbMO7rGAEYCg4vtBwATKzRaL/pub?gid=0&single=true&output=csv";
 const GOOGLE_SHEETS_IMAGES_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTAa67zBZTQExpINm7B5qe0YGU5NhAEG0TaNiLwK1MT9TrYeZR3ofzonbMO7rGAEYCg4vtBwATKzRaL/pub?gid=1315225138&single=true&output=csv";
 const GOOGLE_SHEETS_SERVICES_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTAa67zBZTQExpINm7B5qe0YGU5NhAEG0TaNiLwK1MT9TrYeZR3ofzonbMO7rGAEYCg4vtBwATKzRaL/pub?gid=751163247&single=true&output=csv";
